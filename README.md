@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# React App with Rust Web Assembly
+
+The initial version just calls a Rust function to add two numbers and display the result on the home page.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
