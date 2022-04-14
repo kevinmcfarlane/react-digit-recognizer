@@ -5,8 +5,7 @@ import React, { useRef, useState, ChangeEvent } from 'react'
 
 interface Props {
     name: string,
-    //here you can declare the return type (here is void)
-    stateChanger: (value: string) => void;
+    stateChanger: (value: string) => void
 }
 
 const UploadButton = ({name, stateChanger}: Props) => {
@@ -22,16 +21,10 @@ const UploadButton = ({name, stateChanger}: Props) => {
     const file = e.target.files[0]
 
     if (file) {
-    //   if (file.type !== 'text/csv') {
-    //     setUploadError('Please upload a .csv file')
-    //   }
-
       const fileReader = new FileReader()
       fileReader.onload = (event) => {
-        const contents = event?.target?.result;
-        // do something with the file contents here
-        console.log(contents);
-        stateChanger(contents as string);
+        const rawData = event?.target?.result;
+        stateChanger(rawData as string);
       }
 
       e.target.value = ''

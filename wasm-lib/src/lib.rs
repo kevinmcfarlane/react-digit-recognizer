@@ -1,7 +1,4 @@
 use wasm_bindgen::prelude::*;
-use std::fs::File;
-// use std::io::{BufRead, BufReader};
-// use std::process;
 
 #[wasm_bindgen]
 pub struct DigitRecognizer {}
@@ -11,46 +8,34 @@ impl DigitRecognizer {
     pub fn calculate_percent_correct(training_set: &str, validation_set: &str) -> String
     {
         if !training_set.is_empty() && !validation_set.is_empty()  {
-            return String::from("Training and Validation");
-        } else {
-            return String::from("Not uploaded");
-        }
-                // let training_path = "trainingsample.csv";
-        // let pattern = "\r\n";
-        // let training_set = DigitRecognizer::read_observations(training_path, pattern);
-
-        // let training_path = "trainingsample.csv";
-        // let _training_set: Vec<Observation> = DigitRecognizer::read_observations(training_path);
+            let pattern = "\r\n";
+            let training_observations = DigitRecognizer::read_observations(training_set, pattern);
+    
+            let pattern = "\n";
+            let validation_observations = DigitRecognizer::read_observations(validation_set, pattern);
         
-        // let validation_path = "validationsample.csv";
-        // let validation_set: Vec<Observation> = read_observations(validation_path);
-    
-        // let evaluator = Evaluator::new(&training_set);
-        // let percent_correct = evaluator.percent_correct(&validation_set);
-        // let percent_correct = format!("{:.2}%", 100.0 * percent_correct);
-    
-        // println!("Correctly predicted: {}", percent_correct);
-    
-        //String::from("1")
-        // String::from("1")
+            let evaluator = Evaluator::new(&training_observations);
+            let percent_correct = evaluator.percent_correct(&validation_observations);
+            let percent_correct = format!("{:.2}%", 100.0 * percent_correct);
+            
+            return percent_correct;
+        } else {
+            return String::from("");
+        }
     }
 
     /// Reads observations as comma separated labels (the numbers the pixels represent) and pixels 
-    /// from the specified path and returns a collection of Observation instances.
+    /// from the specified data and returns a collection of Observation instances.
     ///
     /// # Arguments
     ///
-    /// * `path` -  The input path.
+    /// * `raw_data` -  The observation input data csv string.
+    /// * `pattern` -  The end of line pattern.
     ///
-    fn read_observations(path: &str, pattern: &str) -> Vec<Observation> {
-        // TODO
-        let file = File::open(path);
-    
-        let content = String::new();
-        //file.read_to_string(&mut content).await?;
-        
+    fn read_observations(raw_data: &str, pattern: &str) -> Vec<Observation> {
+
         // Skip header
-        let rows: Vec<&str> = content.split(pattern).skip(1).collect();
+        let rows: Vec<&str> = raw_data.split(pattern).skip(1).collect();
         
         let mut observations: Vec<Observation> = Vec::new();
         
@@ -73,74 +58,8 @@ impl DigitRecognizer {
         
         observations
     }
-// fn read_observations(path: &str) -> Vec<Observation>{
-//     let file = File::open(path).unwrap_or_else(|err| {
-//         eprintln!("Problem opening file: {}", err);
-//         process::exit(1);
-//     });
-//     let reader = BufReader::new(file);
-
-//     // Skip header
-//     let rows = reader.lines().skip(1);
-
-//     let mut observations: Vec<Observation> = Vec::new();
-
-//     for row in rows 
-//     {
-//         let r = row.unwrap_or_else(|err| {
-//             eprintln!("Problem extracting observation row from input: {}", err);
-//             process::exit(1);
-//         });
-
-//         let comma_separated: Vec<&str> = r.split(',').collect();
-//         let label = comma_separated[0];
-
-//         let pixel_strings = &comma_separated[1..];
-//         let mut pixels:  Vec<i32> = Vec::new();
-
-//         for pixel_string in pixel_strings {
-//             let pixel: i32 = pixel_string.parse().unwrap_or_else(|err| {
-//                 eprintln!("Problem converting pixel string into integer: {}", err);
-//                 process::exit(1);
-//             });
-//             pixels.push(pixel);
-//         }
-
-//         let observation = Observation::new(label, &pixels);
-//         observations.push(observation);
-//     }
-
-//     observations
-// }
-
-
 }
 
-// #[wasm_bindgen]
-// pub fn calculate_percent_correct() -> String
-// {
-//     // // return pre-formatted string
-//     // // TODO
-//     let training_path = "trainingsample.csv";
-//     let _training_set: Vec<Observation> = read_observations(training_path);
-    
-//     // let validation_path = "validationsample.csv";
-//     // let validation_set: Vec<Observation> = read_observations(validation_path);
-
-//     // let evaluator = Evaluator::new(&training_set);
-//     // let percent_correct = evaluator.percent_correct(&validation_set);
-//     // let percent_correct = format!("{:.2}%", 100.0 * percent_correct);
-
-//     // println!("Correctly predicted: {}", percent_correct);
-
-//     String::from("1")
-// }
-
-// use std::fs::File;
-// use std::io::{BufRead, BufReader};
-// use std::process;
-
-// #[wasm_bindgen]
 #[derive(Debug, Clone)]
 /// A digit from 0 to 9 and its representation in pixels.
 pub struct Observation {
@@ -148,7 +67,6 @@ pub struct Observation {
     pixels: Vec<i32> 
 }
 
-// #[wasm_bindgen]
 impl Observation {
     /// Constructs a new instance from a label (a number representing an image) and a collection of pixels representing that image.
     /// # Arguments
@@ -167,10 +85,8 @@ impl Observation {
 /// Compares two images pixel by pixel, computing each difference, and adding up their absolute values.
 /// Identical images will have a distance of zero, and the further apart two pixels are, the higher the distance between the two
 /// images will be. 
-// #[wasm_bindgen]
 pub struct ManhattanDistance {}
 
-// #[wasm_bindgen]
 impl ManhattanDistance {
     /// Computes the distance between two images. 
     /// Identical images will have a distance of zero.
@@ -279,68 +195,5 @@ impl Evaluator {
         let sum: f64 = Iterator::sum(scores.iter());
 
         sum / (number_of_scores as f64)
-    }
-}
-
-// /// Reads observations as comma separated labels (the numbers the pixels represent) and pixels 
-// /// from the specified path and returns a collection of Observation instances.
-// ///
-// /// # Arguments
-// ///
-// /// * `path` -  The input path.
-// ///
-// fn read_observations(path: &str) -> Vec<Observation>{
-//     let file = File::open(path).unwrap_or_else(|err| {
-//         eprintln!("Problem opening file: {}", err);
-//         process::exit(1);
-//     });
-//     let reader = BufReader::new(file);
-
-//     // Skip header
-//     let rows = reader.lines().skip(1);
-
-//     let mut observations: Vec<Observation> = Vec::new();
-
-//     for row in rows 
-//     {
-//         let r = row.unwrap_or_else(|err| {
-//             eprintln!("Problem extracting observation row from input: {}", err);
-//             process::exit(1);
-//         });
-
-//         let comma_separated: Vec<&str> = r.split(',').collect();
-//         let label = comma_separated[0];
-
-//         let pixel_strings = &comma_separated[1..];
-//         let mut pixels:  Vec<i32> = Vec::new();
-
-//         for pixel_string in pixel_strings {
-//             let pixel: i32 = pixel_string.parse().unwrap_or_else(|err| {
-//                 eprintln!("Problem converting pixel string into integer: {}", err);
-//                 process::exit(1);
-//             });
-//             pixels.push(pixel);
-//         }
-
-//         let observation = Observation::new(label, &pixels);
-//         observations.push(observation);
-//     }
-
-//     observations
-// }
-
-
-
-#[wasm_bindgen]
-pub fn add(a: i32, b: i32) -> i32 {
-    a + b
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
     }
 }
