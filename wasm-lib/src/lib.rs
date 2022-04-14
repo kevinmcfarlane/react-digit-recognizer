@@ -8,9 +8,14 @@ pub struct DigitRecognizer {}
 
 #[wasm_bindgen]
 impl DigitRecognizer {
-    pub fn calculate_percent_correct() -> String
+    pub fn calculate_percent_correct(training_set: &str, validation_set: &str) -> String
     {
-        // let training_path = "trainingsample.csv";
+        if !training_set.is_empty() && !validation_set.is_empty()  {
+            return String::from("Training and Validation");
+        } else {
+            return String::from("Not uploaded");
+        }
+                // let training_path = "trainingsample.csv";
         // let pattern = "\r\n";
         // let training_set = DigitRecognizer::read_observations(training_path, pattern);
 
@@ -26,7 +31,7 @@ impl DigitRecognizer {
     
         // println!("Correctly predicted: {}", percent_correct);
     
-        String::from("1")
+        //String::from("1")
         // String::from("1")
     }
 

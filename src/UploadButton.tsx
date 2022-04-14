@@ -3,7 +3,13 @@
 // (Hides file input box - replaces with button)
 import React, { useRef, useState, ChangeEvent } from 'react'
 
-const UploadButton = () => {
+interface Props {
+    name: string,
+    //here you can declare the return type (here is void)
+    stateChanger: (value: string) => void;
+}
+
+const UploadButton = ({name, stateChanger}: Props) => {
   const [uploadError, setUploadError] = useState('')
   const uploadRef = useRef<HTMLInputElement>(null)
 
@@ -22,9 +28,10 @@ const UploadButton = () => {
 
       const fileReader = new FileReader()
       fileReader.onload = (event) => {
-        const contents = event?.target?.result
+        const contents = event?.target?.result;
         // do something with the file contents here
         console.log(contents);
+        stateChanger(contents as string);
       }
 
       e.target.value = ''
@@ -40,7 +47,7 @@ const UploadButton = () => {
     <>
       {/* style this however you like */}
       <button onClick={() => uploadRef.current?.click()}>
-        Upload file
+        {name}
       </button>
 
       <input

@@ -8,11 +8,40 @@ import UploadButton from './UploadButton'
 
 
 function App() {
-  return (
+  const [percentCorrect, calculatePercentCorrect] = useState("");
+  const [trainingSet, setTrainingSet] = useState("");
+  const [validationSet, setValidationSet] = useState("");
+  useEffect(() => {
+    init().then(() => {
+      console.log(`Training Set = ${trainingSet}`);
+      calculatePercentCorrect(DigitRecognizer.calculate_percent_correct(trainingSet, validationSet));
+    })
+  }, [trainingSet, validationSet])
+return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <p>Correctly predicted: {percentCorrect}</p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+
       <article>
-          <h1>Upload Button</h1>
-          <UploadButton />
+          <h1>Digit Recognizer Web Assembly</h1>
+          <UploadButton name='Upload Training Set' stateChanger={setTrainingSet} />
+          <span> </span>
+          <UploadButton name='Upload Validation Set' stateChanger={setValidationSet} />
       </article>
+    </div>
   )
 }
 
