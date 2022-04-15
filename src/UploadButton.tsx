@@ -8,7 +8,7 @@ interface Props {
     stateChanger: (value: string) => void
 }
 
-const UploadButton = ({name, stateChanger}: Props) => {
+const UploadButton = ({name, stateChanger: stateChanger}: Props) => {
   const [uploadError, setUploadError] = useState('')
   const uploadRef = useRef<HTMLInputElement>(null)
 
@@ -44,7 +44,7 @@ const UploadButton = ({name, stateChanger}: Props) => {
       </button>
 
       <input
-        type="file"
+        type='file'
         ref={uploadRef}
         onChange={handleUpload}
         style={{ display: 'none' }}
