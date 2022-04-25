@@ -1,4 +1,4 @@
-# React App running Digt Recognizer (Machine Learning) in Rust WebAssembly
+# React App running Digit Recognizer (Machine Learning) in Rust WebAssembly
 
 Uploads training and validation data sets and then displays the percentage of digits that were correctly predicted. For machine learning technical details see the pure Rust [implementation].
 
