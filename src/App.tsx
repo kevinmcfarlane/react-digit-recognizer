@@ -20,11 +20,19 @@ function App() {
 return (
     <div className="App">
       <header className="App-header">
+        <article>
+          <h1>Digit Recognizer implemented in Rust/Web Assembly</h1>
+          <UploadButton name='Upload Training Set' stateChanger={setTrainingSet} />
+          <span> </span>
+          <UploadButton name='Upload Validation Set' stateChanger={setValidationSet} />
+          {percentCorrect.length > 0
+          ? <p>Correctly predicted: {percentCorrect}</p> 
+          : <p/>}
+        </article>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <p>Correctly predicted: {percentCorrect}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -34,12 +42,6 @@ return (
           Learn React
         </a>
       </header>
-      <article>
-          <h1>Digit Recognizer implemented in Rust/Web Assembly</h1>
-          <UploadButton name='Upload Training Set' stateChanger={setTrainingSet} />
-          <span> </span>
-          <UploadButton name='Upload Validation Set' stateChanger={setValidationSet} />
-      </article>
     </div>
   )
 }

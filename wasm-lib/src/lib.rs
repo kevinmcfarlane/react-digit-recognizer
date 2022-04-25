@@ -5,6 +5,13 @@ pub struct DigitRecognizer {}
 
 #[wasm_bindgen]
 impl DigitRecognizer {
+    /// Calculates the percentage of images that are correctly predicted.
+    ///
+    /// # Arguments
+    ///
+    /// * `training_set` -  The raw training set of observations from csv input.
+    /// * `validation_set` -  The raw validation set of observations from csv input.
+    ///
     pub fn calculate_percent_correct(training_set: &str, validation_set: &str) -> String
     {
         if !training_set.is_empty() && !validation_set.is_empty()  {
