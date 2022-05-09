@@ -21,7 +21,7 @@ return (
     <div className="App">
       <header className="App-header">
         <article>
-          <h1>Digit Recognizer implemented in Rust/Web Assembly</h1>
+          <h1>Digit Recognizer implemented in Rust/WebAssembly</h1>
           <UploadButton name='Upload Training Set' stateChanger={setTrainingSet} />
           <span> </span>
           <UploadButton name='Upload Validation Set' stateChanger={setValidationSet} />
