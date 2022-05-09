@@ -2,6 +2,8 @@
 
 Uploads training and validation data sets and then displays the percentage of digits that were correctly predicted. For machine learning technical details see the pure Rust [implementation]. In this new version the file input was moved out of the Rust and into the React UI.
 
+![Image](correctly-predicted.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
